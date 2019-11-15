@@ -3,21 +3,37 @@
 
 (defn is-even? [n]
   (if (= n 0)
-    __
-    (___ (is-even? (dec n)))))
+    true
+    (not (is-even? (dec n)))))
 
-(defn is-even-bigint? [n]
-  (loop [n   n
+(defn is-even-bigint? [num]
+  (loop [n num
          acc true]
     (if (= n 0)
-      __
+      acc
       (recur (dec n) (not acc)))))
 
 (defn recursive-reverse [coll]
-  __)
+  (if (empty? coll)
+    []
+    (conj
+      (recursive-reverse (rest coll))
+      (first coll))))
 
 (defn factorial [n]
-  __)
+  (if (= n 0)
+    1
+    (* n (factorial (dec n)))))
+
+(defn factorial-bigint [num]
+  (loop [n num
+         acc 1]
+    (if (= n 0)
+      acc
+      (recur (dec n) (* acc n)))))
+
+(comment
+  (factorial-bigint 4))
 
 (meditations
   "Recursion ends with a base case"
@@ -30,10 +46,10 @@
   (= false (is-even-bigint? 100003N))
 
   "Reversing directions is easy when you have not gone far"
-  (= '(1) (recursive-reverse [1]))
+  (= [1] (recursive-reverse [1]))
 
   "Yet it becomes more difficult the more steps you take"
-  (= '(6 5 4 3 2) (recursive-reverse [2 3 4 5 6]))
+  (= [6 5 4 3 2 1] (recursive-reverse [1 2 3 4 5 6]))
 
   "Simple things may appear simple."
   (= 1 (factorial 1))
@@ -51,4 +67,4 @@
   (< 1000000000000000000000000N (factorial 1000N))
 
   "But what happens when the machine limits you?"
-  (< 1000000000000000000000000N (factorial 100003N)))
+  (< 1000000000000000000000000N (factorial-bigint 100003N)))
